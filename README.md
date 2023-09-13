@@ -22,25 +22,20 @@ To run this project, you need to have the following Python packages installed:
 - NumPy
 
 ## Charts
-![Attition By Gender](https://drive.google.com/file/d/1hTCCvvEShv56MHfil14rZhj5b0JcVfx2/view?usp=sharing)
+[![Attition By Gender](https://drive.google.com/file/d/1hTCCvvEShv56MHfil14rZhj5b0JcVfx2/view?usp=drive_link "Attition By Gender")](https://drive.google.com/file/d/1hTCCvvEShv56MHfil14rZhj5b0JcVfx2/view?usp=drive_linkhttp:// "Attition By Gender")
 
 
 ## How to Use
 
 1. Clone this repository to your local system.
 2. Ensure you have the required packages installed.
-3. Execute the analysis script (e.g., `analysis.py`) to obtain results and graphs.
+3. Execute the analysis script (e.g., `dataSet.py`) to obtain results and graphs.
 4. Explore the graphs and results to gain insights into employee attrition in the dataset.
 
 ## Contributions
 
 If you wish to contribute to this project, feel free to submit a pull request. We are open to new ideas and improvements.
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE.md file for more details.
-
-We hope this project proves useful for gaining a better understanding of employee attrition in your organization or in similar analysis projects!
 
 # Español
 #Análisis de Atrición de Empleados
@@ -69,7 +64,7 @@ Para ejecutar este proyecto, necesitas tener instalados los siguientes paquetes 
 
 1. Clona este repositorio en tu sistema local.
 2. Asegúrate de tener los paquetes requeridos instalados.
-3. Ejecuta el script de análisis (por ejemplo, `analysis.py`) para obtener resultados y gráficos.
+3. Ejecuta el script de análisis (por ejemplo, `dataSet.py`) para obtener resultados y gráficos.
 4. Explora los gráficos y resultados para obtener información sobre la atrición de empleados en el conjunto de datos.
 
 ## Contribuciones
