@@ -1,63 +1,62 @@
 import pandas as pd
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 
 import numpy as np
 
 import matplotlib.pyplot as plt
 
-#datasetportfolio@barbara-python.iam.gserviceaccount.com
-#con esta linea lo conecto directo de la pagina web
-#dataSet=pd.read_csv("https://www.fdic.gov/bank/individual/failed/banklist.csv", on_bad_lines="skip", encoding="ISO-8859-1")
+url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQd6sTzHzHzw0xelP8z-gCOtcL9nxxeZTQBOppOBdvtNyttuh0iP1hmEam0XtnXT2xylGvPF2duZbB4/pub?gid=1500491733&single=true&output=csv'
+dataHR = pd.read_csv(url)
+print(dataHR)
 
-# Ruta al archivo CSV descargado
-ruta_csv = "C:\\Users\\barba\\OneDrive\\Documentos\\Python practica\\dataHR.csv"
-
-dataHR=pd.read_csv(ruta_csv)
-
-# Configura las credenciales
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name('clave.json', scope)
-client = gspread.authorize(creds)
-
-sh = client.open_by_url('https://docs.google.com/spreadsheets/d/1UISnMoJfMteg96yeKrTS3PEfar0dafddmop1bcrhqmc/edit#gid=0')
-
-#spreadsheet_id = '1UISnMoJfMteg96yeKrTS3PEfar0dafddmop1bcrhqmc'
-#service = build('sheets', 'v4', credentials=creds)
-#sheet = service.spreadsheets()
-
-worksheet = sh.worksheet("uno")
-
-worksheet.clear()
-
-# Convertir el DataFrame a una lista de listas
+# Transform the DataFrame into a list of lists
 values_to_update = [dataHR.columns.values.tolist()] + dataHR.values.tolist()
 valor = values_to_update
 
-# Actualizar la hoja de cálculo con los datos del DataFrame
-worksheet.update(valor, 'uno! 1:1473')
-
-
+#Info of a specific column
 print(dataHR.info())
 
-#para tener la info de una columna en especifico
-#print(dataHR.Age.describe())
-
-
-#si solo quiero ver las columnas de texto quito la libreria numpy y sustituyo por la palabra "object"
-print(dataHR.describe(include=[object]))
-
-print(dataHR.describe(include=[np.number], percentiles=[.1,.9]))
-
-#ofrece los 5 1eros registros 
+#Check out the first 5 records
 print(dataHR.head)
 print(dataHR.tail())
-#para ver la cantidad de filas y columnas en ese orden
-print(dataHR.shape)
 
-print (dataHR.columns)
 
-x=[1,2,3,4,5,6]
-y=[21,22,23,24,25,26]
+# 1. Attrition vs. Gender: Compare attrition rates between genders.
+#Stacked bar chart to illustrate the number of employees staying and leaving based on their gender.
+Attition_Gender = pd.crosstab(dataHR['Gender'], dataHR['Attrition'])
 
-plt.bar(x,y)
+Attition_Gender.plot(kind='bar', stacked=True)
+plt.xlabel('Gender')
+plt.ylabel('Count')
+plt.title('Attrition by Gender')
+plt.show()
+
+# 2. Attrition vs. Marital Status: Explore whether employees marital status is linked to attrition.
+#A grouped bar chart could be useful in this context.
+
+Attition_MaritalStatus = pd.crosstab(dataHR['MaritalStatus'], dataHR['Attrition'])
+
+Attition_MaritalStatus.plot(kind='bar', stacked=True)
+plt.xlabel('MaritalStatus')
+plt.ylabel('Count')
+plt.title('Attrition by Marital Status')
+plt.show()
+
+#3. Attrition vs. Age: Investigate if employees age is associated with attrition.
+#Group ages into ranges such as 18-25, 26-35, 36-45, etc.
+#Define the age range boundaries.
+
+age_bins = [18, 25, 35, 45, 55, 65, 100]
+
+# Define the tags
+age_labels = ['18-25', '26-35', '36-45', '46-55', '56-65', '65+']
+
+# Group the ages into ranges and assign labels
+dataHR['Age_Group'] = pd.cut(dataHR['Age'], bins=age_bins, labels=age_labels)
+Attition_Age = pd.crosstab(dataHR['Age_Group'], dataHR['Attrition'])
+
+# Create a stacked bar chart
+Attition_Age.plot(kind='bar', stacked=True)
+plt.xlabel('Age Group')
+plt.ylabel('Count')
+plt.title('Attrition by Age')
+plt.show()
